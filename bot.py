@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram.error import BadRequest
 from telegram.ext import (
     Application,
     CallbackQueryHandler,
@@ -162,10 +163,9 @@ async def handle_ai_message(update: Update, context: ContextTypes.DEFAULT_TYPE) 
             
             
         await update.message.reply_text(
-                ai_response.choices[0].message.content,
-                parse_mode="Markdown",
-                reply_markup=build_back_button(),
-            )
+            ai_response.choices[0].message.content,
+            reply_markup=build_back_button(),
+        )
 
     except Exception as error:
        logging.exception("Ошибка YandexGPT: %s", error)
